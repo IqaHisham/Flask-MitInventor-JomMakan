@@ -1,0 +1,76 @@
+{% extends "base.html"%} {% block content %}
+<div class="container">
+	<div class="row">
+		{% for tableName in table %}
+		<div class="col-sm-4">
+			<div class="panel panel-default" style="background-color: rgb(9, 153, 52);color: #fff;">
+				<h2 style="text-align: center;">{{tableName}}</h2>
+				<p style="color: #ee1616;text-align: center;font-weight: 600;">
+					{{ table[tableName].status }}
+				</p>
+				<div style="background-color: #ffffff;color: #000000;margin: 10px;padding: 10px;">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<th></th>
+								<th>Quantity</th>
+								<th>Menu</th>
+							</tr>
+						</thead>
+						<tbody>
+							{% set food = table[tableName].food %}
+              {% set subfoodqty = table[tableName].food.qfood %}
+							<tr>
+                
+                {% if subfoodqty|length == 0 %}
+                <td >Food</td>
+                	<td></td>
+                	<td></td>
+                {%else%}
+                <td rowspan="{{subfoodqty|length}}">Food</td>
+                {%for subitemfood in table[tableName].food.itemfood %}
+								<td>
+                  {{subfoodqty[loop.index-1]}}
+								</td>
+								<td>
+                  {{subitemfood}}
+								</td>
+               
+							</tr>
+						 {% endfor%}
+                {% endif %}
+							{% set drink = table[tableName].drinks %}
+              {% set subdrinkqty = table[tableName].drinks.qdrink %}
+							<tr>
+                 {% if subdrinkqty|length == 0 %}
+                  <td >Food</td>
+                	<td></td>
+                	<td></td>
+                {%else%}
+								<td rowspan="{{subdrinkqty|length}}">Drink</td> 
+                {%for subitemdrink in table[tableName].drinks.itemdrink %}
+                 
+								<td>
+                  {{subdrinkqty[loop.index-1]}}
+								</td>
+								<td>
+                  {{subitemdrink}}
+								</td>
+                
+							</tr>
+              {% endfor%}
+                {% endif %}
+              <tr>
+								<td>Time</td>
+								<td colspan="2">{{ table[tableName].time }}</td>
+							</tr>
+              </tbody>
+					</table>
+				</div>
+			</div>
+    
+		</div>
+  {% endfor%} 
+	</div>
+</div>
+{% endblock %}
